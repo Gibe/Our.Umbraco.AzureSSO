@@ -1,14 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Identity.Web;
+using Our.Umbraco.AzureSSO;
 using Our.Umbraco.AzureSSO.Settings;
-using Umbraco.Cms.Core.DependencyInjection;
 using Umbraco.Extensions;
 
-namespace Our.Umbraco.AzureSSO
+namespace Umbraco.Cms.Core.DependencyInjection
 {
 	public static class MicrosoftAccountAuthenticationExtensions
 	{
@@ -19,7 +18,7 @@ namespace Our.Umbraco.AzureSSO
 
 			builder.Services.AddSingleton<AzureSsoSettings>(conf => new AzureSsoSettings(azureSsoConfiguration));
 			builder.Services.ConfigureOptions<MicrosoftAccountBackOfficeExternalLoginProviderOptions>();
-			
+
 			var initialScopes = new string[] { };
 			builder.AddBackOfficeExternalLogins(logins =>
 			{
@@ -43,20 +42,6 @@ namespace Our.Umbraco.AzureSSO
 			});
 			return builder;
 		}
-		
+
 	}
-
-	public class AzureSSOConfiguration
-	{
-		public AzureSSOConfiguration()
-		{
-			GroupBindings = new Dictionary<string, string>();
-		}
-
-		public string? DisplayName { get; set; }
-		public string? ButtonStyle { get; set; }
-		public string? Icon { get; set; }
-		public Dictionary<string,string> GroupBindings { get; set; }
-		public bool? DenyLocalLogin { get; set; }
- 	}
 }
